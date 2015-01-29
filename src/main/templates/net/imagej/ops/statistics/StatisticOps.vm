@@ -28,61 +28,67 @@
  * #L%
  */
 
-package net.imagej.ops.histogram;
-
-import java.util.List;
+package net.imagej.ops.statistics;
 
 import net.imagej.ops.Op;
-import net.imagej.ops.OpService;
-import net.imagej.ops.Ops;
-import net.imagej.ops.OutputOp;
-import net.imagej.ops.statistics.FirstOrderOps;
-import net.imglib2.histogram.Histogram1d;
-import net.imglib2.histogram.Real1dBinMapper;
-import net.imglib2.type.numeric.RealType;
-
-import org.scijava.ItemIO;
-import org.scijava.plugin.Parameter;
-import org.scijava.plugin.Plugin;
 
 /**
- * @author Martin Horn, University of Konstanz
+ * Static utility class containing built-in op interfaces of the
+#if ($namespace)
+#set ($prefix = "${namespace}.")
+ * $namespace namespace.
+#else
+ * global namespace.
+#end
+ * <p>
+ * These interfaces are intended to mark all ops using a particular name,
+ * regardless of their exact functionality. For example, all ops called
+ * "${ops.get(0).name}" would be marked by implementing the
+ * {@code $className.${ops.get(0).iface}} interface, and annotating them with:
+ * </p>
+ * <pre>
+ * @Plugin(type = Op.class, name = $className.${ops.get(0).iface}.NAME)
+ * </pre>
+ *
+#foreach ($author in $authors)
+ * @author $author
+#end
  */
-@Plugin(type = Op.class, name = Ops.Histogram.NAME)
-public class HistogramCreate<T extends RealType<T>> implements
-		OutputOp<Histogram1d<T>>, Ops.Histogram {
+public final class $className {
 
-	@Parameter(type = ItemIO.OUTPUT)
-	private Histogram1d<T> out;
-
-	@Parameter
-	private Iterable<T> in;
-
-	@Parameter(required = false)
-	private int numBins = 256;
-
-	@Parameter
-	private OpService ops;
-
-	@Override
-	public void run() {
-		@SuppressWarnings("unchecked")
-		final List<T> res = (List<T>) ops.run(FirstOrderOps.MinMax.class, in);
-
-		out = new Histogram1d<T>(new Real1dBinMapper<T>(res.get(0)
-				.getRealDouble(), res.get(1).getRealDouble(), numBins, false));
-
-		out.countData(in);
-
+	private $className() {
+		// NB: Prevent instantiation of utility class.
 	}
+#foreach ($op in $ops)
 
-	@Override
-	public Histogram1d<T> getOutput() {
-		return out;
+	/**
+	 * Base interface for "$op.name" operations.
+	 * <p>
+	 * Implementing classes should be annotated with:
+	 * </p>
+	 *
+	 * <pre>
+#if ($op.aliases)
+	 * @Plugin(type = Op.class, name = $className.${op.iface}.NAME,
+	 *   attrs = { @Attr(name = "aliases", value = $className.${op.iface}.ALIASES) })
+#else
+	 * @Plugin(type = Op.class, name = $className.${op.iface}.NAME, label = $className.${op.iface}.LABEL)
+#end
+	 * </pre>
+	 */
+	public interface $op.iface extends Op {
+		String NAME = "$!{prefix}$op.name";
+		String LABEL = "$!{prefix}$op.iface";
+#if ($op.aliases)
+		String ALIASES = "##
+#set ($first = true)
+#foreach ($alias in $op.aliases)
+#if ($first)#set ($first = false)#else, #end
+$!prefix$alias##
+#end
+";
+#end
 	}
+#end
 
-	@Override
-	public void setOutput(Histogram1d<T> output) {
-		this.out = output;
-	}
 }

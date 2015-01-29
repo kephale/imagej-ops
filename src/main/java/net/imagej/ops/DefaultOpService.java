@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import net.imagej.ops.statistics.FirstOrderOps;
+
 import org.scijava.command.CommandInfo;
 import org.scijava.command.CommandService;
 import org.scijava.log.LogService;
@@ -303,27 +305,27 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 
 	@Override
 	public Object max(Object... args) {
-		return run(Ops.Max.NAME, args);
+		return run(FirstOrderOps.Max.NAME, args);
 	}
 
 	@Override
 	public Object mean(Object... args) {
-		return run(Ops.Mean.NAME, args);
+		return run(FirstOrderOps.Mean.NAME, args);
 	}
 
 	@Override
 	public Object median(Object... args) {
-		return run(Ops.Median.NAME, args);
+		return run(FirstOrderOps.Median.NAME, args);
 	}
 
 	@Override
 	public Object min(Object... args) {
-		return run(Ops.Min.NAME, args);
+		return run(FirstOrderOps.Min.NAME, args);
 	}
 
 	@Override
 	public Object minmax(Object... args) {
-		return run(Ops.MinMax.NAME, args);
+		return run(FirstOrderOps.MinMax.NAME, args);
 	}
 
 	@Override
@@ -343,7 +345,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 
 	@Override
 	public Object quantile(Object... args) {
-		return run(Ops.Quantile.NAME, args);
+		return run(FirstOrderOps.Quantile.NAME, args);
 	}
 
 	@Override
@@ -363,7 +365,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 
 	@Override
 	public Object stddev(Object... args) {
-		return run(Ops.StdDeviation.NAME, args);
+		return run(FirstOrderOps.StdDeviation.NAME, args);
 	}
 
 	@Override
@@ -373,7 +375,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 
 	@Override
 	public Object sum(Object... args) {
-		return run(Ops.Sum.NAME, args);
+		return run(FirstOrderOps.Sum.NAME, args);
 	}
 
 	@Override
@@ -383,7 +385,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 
 	@Override
 	public Object variance(Object... args) {
-		return run(Ops.Variance.NAME, args);
+		return run(FirstOrderOps.Variance.NAME, args);
 	}
 
 	// -- SingletonService methods --

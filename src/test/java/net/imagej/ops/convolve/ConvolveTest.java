@@ -31,20 +31,16 @@
 package net.imagej.ops.convolve;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import net.imagej.ops.AbstractOpTest;
-import net.imagej.ops.AbstractOutputFunction;
-import net.imagej.ops.Op;
-import net.imagej.ops.fft.filter.AbstractFFTFilterImg;
 import net.imagej.ops.fft.filter.CreateFFTFilterMemory;
+import net.imagej.ops.statistics.FirstOrderOps.Sum;
 import net.imglib2.Point;
 import net.imglib2.algorithm.region.hypersphere.HyperSphere;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.type.numeric.integer.ByteType;
-import net.imglib2.type.numeric.integer.ShortType;
-import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
+import net.imglib2.type.numeric.integer.ByteType;
+import net.imglib2.type.numeric.real.FloatType;
 
 import org.junit.Test;
 
@@ -104,8 +100,8 @@ public class ConvolveTest extends AbstractOpTest {
 		FloatType outSum3 = new FloatType();
 
 		// calculate sum of input and kernel
-		ops.run("sum", inSum, in);
-		ops.run("sum", kernelSum, kernel);
+		ops.run(Sum.class, inSum, in);
+		ops.run(Sum.class, kernelSum, kernel);
 
 		// convolve and calculate the sum of output
 		Img<FloatType> out = (Img<FloatType>) ops.run("convolve", null, in, kernel, borderSize);
@@ -133,9 +129,9 @@ public class ConvolveTest extends AbstractOpTest {
 				createMemory.getFFTImg(), createMemory.getFFTKernel(), out3,
 				true, false);
 
-		ops.run("sum", outSum, out);
-		ops.run("sum", outSum2, out2);
-		ops.run("sum", outSum3, out3);
+		ops.run(Sum.class, outSum, out);
+		ops.run(Sum.class, outSum2, out2);
+		ops.run(Sum.class, outSum3, out3);
 
 		// multiply input sum by kernelSum and assert it is the same as outSum
 		inSum.mul(kernelSum);
