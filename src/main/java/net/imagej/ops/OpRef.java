@@ -29,6 +29,8 @@
  */
 package net.imagej.ops;
 
+import java.util.Arrays;
+
 import net.imagej.ops.Op;
 
 /**
@@ -120,6 +122,32 @@ public class OpRef<OP extends Op> {
 			hash += o.hashCode() * 31;
 		}
 		return type.hashCode() * 31 + hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof OpRef)) {
+			return false;
+		}
+
+		final OpRef<?> ref = (OpRef<?>) obj;
+
+		// check type
+		if (ref.getType() != type) {
+			return false;
+		}
+
+		// check name
+		if (ref.getName() != name) {
+			return false;
+		}
+
+		// check args
+		if (!Arrays.equals(ref.getArgs(), args)) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
