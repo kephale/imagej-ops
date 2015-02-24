@@ -1,0 +1,8 @@
+[TamuraFeatures.java]
+ops = ```
+[
+  {name: tamuracoarsness, iface: Coarsness},
+  {name: tamuradirectionality, iface: Directionality},
+  {name: tamuracontrast, iface: Contrast}
+]
+```

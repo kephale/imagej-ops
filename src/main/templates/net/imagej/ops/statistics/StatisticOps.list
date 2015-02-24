@@ -122,3 +122,15 @@ ops = ```
   {name: sumvariance, iface: SumVariance}
 ]
 ```
+
+[TamuraOps.java]
+className = TamuraOps
+namespace = tamura
+authors = [Christian Dietz, Daniel Seebacher, Andreas Graumann]
+ops = ```
+[
+	{name: coarsness, iface: Coarsness},
+	{name: directionality, iface: Directionality},
+	{name: contrast, iface: Contrast}
+]
+```
