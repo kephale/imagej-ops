@@ -53,7 +53,6 @@ import org.scijava.plugin.Plugin;
 /**
  * 
  * @author Andreas Graumann, University of Konstanz
- * @author Veronika Becker , University of Konstanz
  *
  */
 @Plugin(type = Op.class)
