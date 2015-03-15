@@ -48,7 +48,7 @@ import org.scijava.plugin.Plugin;
  *
  */
 @Plugin(type = Op.class)
-public class LocalBinaryPatterns implements OutputOp<double[]> {
+public class LocalBinaryPatterns2D implements OutputOp<double[]> {
 
 	@Parameter
 	private IterableInterval<? extends RealType<?>> ii;
