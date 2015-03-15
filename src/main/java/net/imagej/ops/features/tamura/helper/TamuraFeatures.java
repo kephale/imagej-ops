@@ -44,7 +44,7 @@ public class TamuraFeatures {
 
 	private double coarsness;
 	private double contrast;
-	private double[] directionality = new double[16];
+	private double directionality;
 
 	public double getCoarsness() {
 		return coarsness;
@@ -62,11 +62,11 @@ public class TamuraFeatures {
 		this.contrast = contrast;
 	}
 
-	public double[] getDirectionality() {
+	public double getDirectionality() {
 		return directionality;
 	}
 
-	public void setDirectionality(double[] directionality) {
+	public void setDirectionality(double directionality) {
 		this.directionality = directionality;
 	}
 

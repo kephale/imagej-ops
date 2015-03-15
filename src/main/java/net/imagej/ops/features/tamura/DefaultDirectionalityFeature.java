@@ -31,7 +31,7 @@ package net.imagej.ops.features.tamura;
 
 import net.imagej.ops.Op;
 import net.imagej.ops.features.tamura.TamuraFeatures.DirectionalityFeature;
-import net.imagej.ops.features.tamura.helper.TamuraTextureComputer;
+import net.imagej.ops.features.tamura.helper.TamuraComputer;
 import net.imglib2.type.numeric.real.DoubleType;
 
 import org.scijava.ItemIO;
@@ -46,12 +46,12 @@ import org.scijava.plugin.Plugin;
  */
 @Plugin(type = Op.class, name = "Tamura: Directionality")
 public class DefaultDirectionalityFeature implements DirectionalityFeature<DoubleType> {
-
-	@Parameter(type = ItemIO.OUTPUT)
-	private DoubleType out;
 	
 	@Parameter
-	private TamuraTextureComputer cp;
+	private TamuraComputer cp;
+	
+	@Parameter(type = ItemIO.OUTPUT)
+	private DoubleType out;
 
 	@Override
 	public DoubleType getOutput() {
@@ -68,8 +68,7 @@ public class DefaultDirectionalityFeature implements DirectionalityFeature<Doubl
 		if (out == null) {
 			out = new DoubleType();
 		}
-		
-		setOutput(new DoubleType(cp.getOutput().getDirectionality()[0]));
+		setOutput(new DoubleType(cp.getOutput().getDirectionality()));
 	}
 
 }

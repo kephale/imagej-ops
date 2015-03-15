@@ -47,7 +47,8 @@ import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.CoarsnessFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.DirectionalityFeature;
-import net.imagej.ops.features.tamura.helper.TamuraTexture2DComputer;
+import net.imagej.ops.features.tamura.helper.Tamura2DComputer;
+import net.imagej.ops.features.tamura.helper.Tamura3DComputer;
 import net.imglib2.IterableInterval;
 import net.imglib2.type.numeric.real.DoubleType;
 
@@ -60,7 +61,7 @@ import org.scijava.plugin.Plugin;
  *
  */
 @Plugin(type = FeatureSet.class, label = "Tamura Texture 2D Features", description = "Calculates the Tamura 2D Features")
-public class TamuraTexture2DFeatureSet<T> extends
+public class Tamura3DFeatureSet<T> extends
 		AbstractAutoResolvingFeatureSet<IterableInterval<T>, DoubleType>
 		implements Contingent {
 
@@ -71,7 +72,7 @@ public class TamuraTexture2DFeatureSet<T> extends
 			count += getInput().dimension(d) > 1 ? 1 : 0;
 		}
 
-		return count == 2;
+		return count == 3;
 	}
 
 	@Override
@@ -79,8 +80,8 @@ public class TamuraTexture2DFeatureSet<T> extends
 
 		final HashSet<OpRef<?>> outputOps = new HashSet<OpRef<?>>();
 
-		//outputOps.add(createOpRef(CoarsnessFeature.class));
-		//outputOps.add(createOpRef(DirectionalityFeature.class));
+		outputOps.add(createOpRef(CoarsnessFeature.class));
+		outputOps.add(createOpRef(DirectionalityFeature.class));
 		outputOps.add(createOpRef(ContrastFeature.class));
 
 		return outputOps;
@@ -89,7 +90,7 @@ public class TamuraTexture2DFeatureSet<T> extends
 	@Override
 	public Set<OpRef<?>> getHiddenOps() {
 		final HashSet<OpRef<?>> hiddenOps = new HashSet<OpRef<?>>();
-		hiddenOps.add(createOpRef(TamuraTexture2DComputer.class, getInput(),
+		hiddenOps.add(createOpRef(Tamura3DComputer.class, getInput(),
 				MeanFeature.class, VarianceFeature.class,
 				Moment4AboutMeanFeature.class));
 		return hiddenOps;

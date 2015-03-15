@@ -1,9 +1,9 @@
 /*
  * #%L
- * ImageJ software for multidimensional image processing and analysis.
+ * SciJava OPS: a framework for reusable algorithms.
  * %%
- * Copyright (C) 2014 Board of Regents of the University of
- * Wisconsin-Madison and University of Konstanz.
+ * Copyright (C) 2013 Board of Regents of the University of
+ * Wisconsin-Madison, and University of Konstanz.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,35 +25,22 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
+ * policies, either expressed or implied, of any organization.
  * #L%
  */
-package net.imagej.ops.features.tamura;
+package net.imagej.ops.features.tamura.helper;
 
-import java.util.List;
-
-import org.junit.Test;
-
-import net.imagej.ops.features.AbstractFeatureTest;
-import net.imagej.ops.features.sets.TamuraTexture2DFeatureSet;
-import net.imglib2.type.numeric.real.DoubleType;
-import net.imglib2.util.Pair;
+import net.imagej.ops.OutputOp;
 
 /**
- * Test of {@Link TamuraTexture2DFeatureSet}
+ * Marker interface for tamura texture computer
  * 
  * @author Andreas Graumann, University of Konstanz
  *
  */
-public class Tamura2DFeatureSetTest extends AbstractFeatureTest {
-
-	@Test
-	public void test() {
-		@SuppressWarnings("unchecked")
-		List<Pair<String, DoubleType>> res = ops.op(
-				TamuraTexture2DFeatureSet.class, random).getFeatureList(random);
-
-		for (Pair entry : res) {
-			System.out.println(entry.getA() + ": " + entry.getB());
-		}
-	}
+public interface TamuraComputer extends OutputOp<TamuraFeatures> {
+	// marker interface
 }

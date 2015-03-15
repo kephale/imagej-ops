@@ -31,6 +31,7 @@ package net.imagej.ops.features.tamura;
 
 import net.imagej.ops.Op;
 import net.imagej.ops.features.tamura.TamuraFeatures.CoarsnessFeature;
+import net.imagej.ops.features.tamura.helper.TamuraComputer;
 import net.imglib2.type.numeric.real.DoubleType;
 
 import org.scijava.ItemIO;
@@ -45,6 +46,8 @@ import org.scijava.plugin.Plugin;
  */
 @Plugin(type = Op.class, name = "Tamura: Coarsness")
 public class DefaultCoarsnessFeature implements CoarsnessFeature<DoubleType> {
+	@Parameter
+	TamuraComputer cp;
 
 	@Parameter(type = ItemIO.OUTPUT)
 	private DoubleType out;
@@ -61,7 +64,10 @@ public class DefaultCoarsnessFeature implements CoarsnessFeature<DoubleType> {
 
 	@Override
 	public void run() {
-		
+		if (out == null) {
+			out = new DoubleType();
+		}
+		setOutput(new DoubleType(cp.getOutput().getCoarsness()));
 	}
 
 }

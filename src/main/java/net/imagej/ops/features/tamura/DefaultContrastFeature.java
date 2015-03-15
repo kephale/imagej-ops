@@ -31,7 +31,7 @@ package net.imagej.ops.features.tamura;
 
 import net.imagej.ops.Op;
 import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
-import net.imagej.ops.features.tamura.helper.TamuraTextureComputer;
+import net.imagej.ops.features.tamura.helper.TamuraComputer;
 import net.imglib2.type.numeric.real.DoubleType;
 
 import org.scijava.ItemIO;
@@ -48,7 +48,7 @@ import org.scijava.plugin.Plugin;
 public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 
 	@Parameter
-	TamuraTextureComputer cp;
+	TamuraComputer cp;
 
 	@Parameter(type = ItemIO.OUTPUT)
 	private DoubleType out;
@@ -65,8 +65,15 @@ public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 
 	@Override
 	public void run() {
+		if (out == null) {
+			out = new DoubleType();
+		}
 		
-		out = new DoubleType(cp.getOutput().getContrast());
-		setOutput(out);
+		double res = cp.getOutput().getContrast();
+		if (Double.isNaN(res)) {
+			res = 0.0;
+		}
+		
+		setOutput( new DoubleType(res));
 	}
 }

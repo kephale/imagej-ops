@@ -31,93 +31,67 @@
  * policies, either expressed or implied, of any organization.
  * #L%
  */
-package net.imagej.ops.features.tamura;
+package net.imagej.ops.features.sets;
 
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.imagej.ops.Contingent;
-import net.imagej.ops.Op;
-import net.imagej.ops.features.haralick.helper.CooccurrenceMatrix.MatrixOrientation;
-import net.imglib2.Cursor;
+import net.imagej.ops.OpRef;
+import net.imagej.ops.features.AbstractAutoResolvingFeatureSet;
+import net.imagej.ops.features.FeatureSet;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.MeanFeature;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment4AboutMeanFeature;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
+import net.imagej.ops.features.tamura.TamuraFeatures.CoarsnessFeature;
+import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
+import net.imagej.ops.features.tamura.TamuraFeatures.DirectionalityFeature;
+import net.imagej.ops.features.tamura.helper.Tamura2DComputer;
+import net.imagej.ops.features.tamura.helper.Tamura3DComputer;
 import net.imglib2.IterableInterval;
-import net.imglib2.type.numeric.RealType;
+import net.imglib2.type.numeric.real.DoubleType;
 
-import org.scijava.ItemIO;
-import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
- * 
- * Class to compute three Tamura Texture Features: Coarsness, Contrast and
- * Directionality. Implementation is based on the paper
- * "Extension of Tamura Texture Features for 3D Fluroscence Microscopy" by
- * Majtner et. al. and the implementation of Lire (http://www.lire-project.net)
+ * Tamura Texutre 2D Feature Set
  * 
  * @author Andreas Graumann, University of Konstanz
  *
  */
-@Plugin(type = Op.class)
-public class Tamura2DComputer implements Contingent {
+@Plugin(type = FeatureSet.class, label = "Tamura Texture 2D Features", description = "Calculates the Tamura 2D Features")
+public class Tamura2DFeatureSet<T> extends
+		AbstractAutoResolvingFeatureSet<IterableInterval<T>, DoubleType>
+		implements Contingent {
 
-	// input image
-	@Parameter
-	private IterableInterval<? extends RealType<?>> ii;
-
-	// output array with all three computed features
-	@Parameter(type = ItemIO.OUTPUT)
-	private double[] output;
-
-	/**
-	 * Constructor
-	 */
-	public Tamura2DComputer() {
-		// convert iterarble interval to array
-		int[][] img = writeImageToArray();
-		
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private int[][] writeImageToArray() {
-		int dimX = -1;
-		int dimY = -1;
-
-		for (int d = 0; d < ii.numDimensions(); d++) {
-			if (ii.dimension(d) > 1) {
-				if (dimX == -1) {
-					dimX = d;
-				} else {
-					dimY = d;
-					break;
-				}
-			}
-		}
-		final Cursor<? extends RealType<?>> cursor = ii.cursor();
-
-		final int[][] pixels = new int[(int) ii.dimension(dimX)][(int) ii
-				.dimension(dimY)];
-
-		for (int i = 0; i < pixels.length; i++) {
-			Arrays.fill(pixels[i], Integer.MAX_VALUE);
-		}
-
-		while (cursor.hasNext()) {
-			cursor.fwd();
-			pixels[cursor.getIntPosition(dimY) - (int) ii.min(dimY)][cursor
-					.getIntPosition(dimX) - (int) ii.min(dimX)] = (int) (cursor
-					.get().getRealDouble());
-		}
-		
-		return pixels;
-	}
-	
 	@Override
 	public boolean conforms() {
-		if (ii.numDimensions() == 2)
-			return true;
-		return false;
+		int count = 0;
+		for (int d = 0; d < getInput().numDimensions(); d++) {
+			count += getInput().dimension(d) > 1 ? 1 : 0;
+		}
+
+		return count == 2;
 	}
 
+	@Override
+	public Set<OpRef<?>> getOutputOps() {
+
+		final HashSet<OpRef<?>> outputOps = new HashSet<OpRef<?>>();
+
+		outputOps.add(createOpRef(CoarsnessFeature.class));
+		outputOps.add(createOpRef(DirectionalityFeature.class));
+		outputOps.add(createOpRef(ContrastFeature.class));
+
+		return outputOps;
+	}
+
+	@Override
+	public Set<OpRef<?>> getHiddenOps() {
+		final HashSet<OpRef<?>> hiddenOps = new HashSet<OpRef<?>>();
+		hiddenOps.add(createOpRef(Tamura2DComputer.class, getInput(),
+				MeanFeature.class, VarianceFeature.class,
+				Moment4AboutMeanFeature.class));
+		return hiddenOps;
+	}
 }

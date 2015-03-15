@@ -1,9 +1,9 @@
 /*
  * #%L
- * SciJava OPS: a framework for reusable algorithms.
+ * ImageJ software for multidimensional image processing and analysis.
  * %%
- * Copyright (C) 2013 Board of Regents of the University of
- * Wisconsin-Madison, and University of Konstanz.
+ * Copyright (C) 2014 Board of Regents of the University of
+ * Wisconsin-Madison and University of Konstanz.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,22 +25,43 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * 
- * The views and conclusions contained in the software and documentation are
- * those of the authors and should not be interpreted as representing official
- * policies, either expressed or implied, of any organization.
  * #L%
  */
-package net.imagej.ops.features.tamura.helper;
+package net.imagej.ops.features.tamura;
 
-import net.imagej.ops.OutputOp;
+import java.util.List;
+
+import org.junit.Test;
+
+import net.imagej.ops.features.AbstractFeatureTest;
+import net.imagej.ops.features.sets.Tamura2DFeatureSet;
+import net.imagej.ops.features.sets.Tamura3DFeatureSet;
+import net.imglib2.type.numeric.real.DoubleType;
+import net.imglib2.util.Pair;
 
 /**
- * Marker interface for tamura texture computer
+ * Test of {@Link TamuraTexture2DFeatureSet}
  * 
  * @author Andreas Graumann, University of Konstanz
  *
  */
-public interface TamuraTextureComputer extends OutputOp<TamuraFeatures> {
-	// marker interface
+public class TamuraFeatureSetTest extends AbstractFeatureTest {
+
+	@Test
+	public void test() {
+		@SuppressWarnings("unchecked")
+		List<Pair<String, DoubleType>> res = ops.op(
+				Tamura2DFeatureSet.class, random).getFeatureList(random);
+
+		for (Pair entry : res) {
+			System.out.println(entry.getA() + ": " + entry.getB());
+		}
+		
+		res = ops.op(
+				Tamura3DFeatureSet.class, random3d).getFeatureList(random3d);
+
+		for (Pair entry : res) {
+			System.out.println(entry.getA() + ": " + entry.getB());
+		}
+	}
 }

@@ -34,20 +34,16 @@
 package net.imagej.ops.features.tamura.helper;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import net.imagej.ops.Contingent;
 import net.imagej.ops.Op;
 import net.imagej.ops.OpService;
-import net.imagej.ops.Ops.Map;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.MeanFeature;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment4AboutMeanFeature;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
-import net.imagej.ops.statistics.FirstOrderOps.Mean;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
-import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.algorithm.region.localneighborhood.RectangleShape;
-import net.imglib2.algorithm.region.localneighborhood.Shape;
 import net.imglib2.type.numeric.RealType;
 
 import org.scijava.ItemIO;
@@ -66,14 +62,11 @@ import org.scijava.plugin.Plugin;
  *
  */
 @Plugin(type = Op.class)
-public class TamuraTexture2DComputer implements TamuraTextureComputer,
+public class Tamura2DComputer implements TamuraComputer,
 		Contingent {
 
 	@Parameter
 	private IterableInterval<? extends RealType<?>> ii;
-	
-	//@Parameter
-	//private RandomAccessibleInterval<? extends RealType<?>> ra;
 
 	@Parameter
 	private MeanFeature<? extends RealType<?>> my;
@@ -100,12 +93,15 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 
 	// width of image in iterable interval
 	private int width;
-	
+
 	// height of image in iterable interval
 	private int height;
 
 	// array to store iterable interval
 	private int[][] img;
+
+	// map to store all Mean images
+	HashMap<Integer, double[][]> meanImgs;
 
 	@Override
 	public void run() {
@@ -114,40 +110,58 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 		if (output == null) {
 			output = new TamuraFeatures();
 		}
-		
-		//Shape rect = new RectangleShape(3, false);
-		//ops.run(Map.class, rect.neighborhoodsSafe(ra), Mean.class);
-		
+
 		// convert iterarble interval to array
 		img = writeIterableIntervalToArray();
 
 		// set output
 		output.setDirectionality(directionality());
 		output.setContrast(contrast());
-		output.setCoarsness((coarseness()));
+		output.setCoarsness(coarseness());
 	}
 
 	/**
-	 * @return
+	 * @return caorsness feature value
 	 */
 	public double coarseness() {
-		double result = 0;
-		for (int i = 1; i < width - 1; i++) {
-			for (int j = 1; j < height - 1; j++) {
-				result = result + Math.pow(2, this.sizeLeadDiffValue(i, j));
-			}
+
+		meanImgs = new HashMap<Integer, double[][]>();
+		for (int k = 1; k <= 3; k++) {
+			meanImgs.put(new Integer(k), averageOverNeighborHoods(k));
 		}
 
-		result = (1.0 / (width * height)) * result;
+		double result = 0;
+		int count = 0;
+		for (int i = 1; i < width - 1; i++) {
+			for (int j = 1; j < height - 1; j++) {
+				if (img[i][j] != Integer.MAX_VALUE) {
+					count++;
+					int k = this.sizeLeadDiffValue(i, j);
+					result += k;
+				}
+			}
+		}
+		result /= count;
 		return result;
 	}
 
+	public double[][] averageOverNeighborHoods(int k) {
+		double[][] meanImg = new double[width][height];
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				meanImg[x][y] = averageOverNeighborhoods(x, y, k);
+			}
+		}
+
+		return meanImg;
+	}
+
 	/**
-	 * 1. For every point(x, y) calculate the average over neighborhoods. 
-	 * TODO: Replace with OP!!!
-	 *
+	 * 
 	 * @param x
 	 * @param y
+	 * @param k
 	 * @return
 	 */
 	public double averageOverNeighborhoods(int x, int y, int k) {
@@ -179,49 +193,52 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 				result = result + img[x0][y0];
 			}
 		}
-		result = (1 / count) * result;
+
+		result = result / count;
 		return result;
 	}
 
 	/**
-	 * 2. For every point (x, y) calculate differences between the not
-	 * overlapping neighborhoods on opposite sides of the point in horizontal
-	 * direction.
-	 *
+	 * 
 	 * @param x
 	 * @param y
+	 * @param k
 	 * @return
 	 */
 	public double differencesBetweenNeighborhoodsHorizontal(int x, int y, int k) {
 		double result = 0;
-		result = Math.abs(this.averageOverNeighborhoods(
-				x + (int) Math.pow(2, k - 1), y, k)
-				- this.averageOverNeighborhoods(x - (int) Math.pow(2, k - 1),
-						y, k));
+		double[][] i = meanImgs.get(k);
+
+		int x0 = x + (int) Math.pow(2, k - 1);
+		int x1 = x - (int) Math.pow(2, k - 1);
+
+		if (x0 < width && x1 > 0)
+			result = Math.abs(i[x0][y] - i[x1][y]);
+
 		return result;
 	}
 
 	/**
-	 * 2. For every point (x, y) calculate differences between the not
-	 * overlapping neighborhoods on opposite sides of the point in vertical
-	 * direction.
-	 *
+	 * 
 	 * @param x
 	 * @param y
+	 * @param k
 	 * @return
 	 */
 	public double differencesBetweenNeighborhoodsVertical(int x, int y, int k) {
 		double result = 0;
-		result = Math.abs(this.averageOverNeighborhoods(x,
-				y + (int) Math.pow(2, k - 1), k)
-				- this.averageOverNeighborhoods(x,
-						y - (int) Math.pow(2, k - 1), k));
+		double[][] i = meanImgs.get(k);
+
+		int y0 = y + (int) Math.pow(2, k - 1);
+		int y1 = y - (int) Math.pow(2, k - 1);
+
+		if (y0 < height && y1 > 0)
+			result = Math.abs(i[x][y0] - i[x][y1]);
+		
 		return result;
 	}
 
 	/**
-	 * 3. At each point (x, y) select the size leading to the highest difference
-	 * value.
 	 *
 	 * @param x
 	 * @param y
@@ -231,10 +248,10 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 		double result = 0, tmp;
 		int maxK = 1;
 
-		for (int k = 0; k < 5; k++) {
-			tmp = Math.max(this.differencesBetweenNeighborhoodsHorizontal(x, y,
-					k), this.differencesBetweenNeighborhoodsVertical(x, y,
-					k));
+		for (int k = 1; k < meanImgs.size(); k++) {
+			tmp = Math.max(
+					this.differencesBetweenNeighborhoodsHorizontal(x, y, k),
+					this.differencesBetweenNeighborhoodsVertical(x, y, k));
 			if (result < tmp) {
 				maxK = k;
 				result = tmp;
@@ -259,7 +276,7 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 	 * 
 	 * @return directionality as histogram
 	 */
-	public double[] directionality() {
+	public double directionality() {
 		// TODO make histogram size user defineable
 		double[] histogram = new double[16];
 		double maxResult = 3;
@@ -267,12 +284,22 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 		int bin = -1;
 		for (int x = 1; x < img.length - 1; x++) {
 			for (int y = 1; y < img[x].length - 1; y++) {
-				bin = (int) ((Math.PI / 2 + Math.atan(this.calculateDeltaV(x,
-						y) / this.calculateDeltaH(x, y, img))) / binWindow);
-				histogram[bin]++;
+				if (img[x][y] != Integer.MAX_VALUE) {
+					bin = (int) ((Math.PI / 2 + Math.atan(this.calculateDeltaV(
+							x, y) / this.calculateDeltaH(x, y, img))) / binWindow);
+					histogram[bin]++;
+				}
 			}
 		}
-		return histogram;
+
+		double dir = 0.0;
+		// get second moment of all histogram values
+		for (int i = 0; i < histogram.length; i++) {
+			dir += Math.pow(histogram[i], 2);
+		}
+		dir /= histogram.length;
+
+		return dir;
 	}
 
 	/**
@@ -283,7 +310,8 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				result = result + img[x - 1 + i][y - 1 + j] * filterH[i][j];
+				if (img[x - 1 + i][y - 1 + j] != Integer.MAX_VALUE)
+					result = result + img[x - 1 + i][y - 1 + j] * filterH[i][j];
 			}
 		}
 		return result;
@@ -297,7 +325,8 @@ public class TamuraTexture2DComputer implements TamuraTextureComputer,
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				result = result + img[x - 1 + i][y - 1 + j] * filterV[i][j];
+				if (img[x - 1 + i][y - 1 + j] != Integer.MAX_VALUE)
+					result = result + img[x - 1 + i][y - 1 + j] * filterV[i][j];
 			}
 		}
 		return result;
