@@ -7,13 +7,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -27,48 +27,87 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imagej.ops.features.tamura;
+package net.imagej.ops.features.provider;
 
-import net.imagej.ops.Op;
-import net.imagej.ops.features.tamura.TamuraFeatures.DirectionalityFeature;
-import net.imagej.ops.features.tamura.helper.TamuraComputer;
-import net.imglib2.type.numeric.real.DoubleType;
+import java.util.Arrays;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
-import org.scijava.plugin.Plugin;
+
+import net.imagej.ops.Contingent;
+import net.imagej.ops.OutputOp;
+import net.imglib2.Cursor;
+import net.imglib2.IterableInterval;
+import net.imglib2.type.numeric.RealType;
 
 /**
  * 
+ * Write an iterable interval in an 2d int array
+ * 
  * @author Andreas Graumann, University of Konstanz
- * @author Christian Dietz, Univesity of Konstanz
  *
  */
-@Plugin(type = Op.class, name = "Tamura: Directionality")
-public class DefaultDirectionalityFeature implements DirectionalityFeature<DoubleType> {
-	
+public class IterableIntervalTo2dArrayProvider implements OutputOp<int[][]>, Contingent {
+
 	@Parameter
-	private TamuraComputer cp;
+	private IterableInterval<? extends RealType<?>> ii;
 	
 	@Parameter(type = ItemIO.OUTPUT)
-	private DoubleType out;
-
-	@Override
-	public DoubleType getOutput() {
-		return out;
-	}
-
-	@Override
-	public void setOutput(DoubleType _output) {
-		out.set(_output);
-	}
-
+	private int[][] output;
+	
 	@Override
 	public void run() {
-		if (out == null) {
-			out = new DoubleType();
+		int dimX = -1;
+		int dimY = -1;
+
+		// select dimensions
+		for (int d = 0; d < ii.numDimensions(); d++) {
+			if (ii.dimension(d) > 1) {
+				if (dimX == -1) {
+					dimX = d;
+				} else {
+					dimY = d;
+					break;
+				}
+			}
 		}
-		setOutput(new DoubleType(cp.getOutput().getDirectionality()));
+		final Cursor<? extends RealType<?>> cursor = ii.cursor();
+
+		// create array
+		int[][] pixels = new int[ (int) ii.dimension(dimX)][ (int) ii.dimension(dimY)];
+
+		// fill array with integer max value to be able to seperate between back
+		// and foreground
+		for (int i = 0; i < pixels.length; i++) {
+			Arrays.fill(pixels[i], Integer.MAX_VALUE);
+		}
+
+		// fill array with values from iterable interval
+		while (cursor.hasNext()) {
+			cursor.fwd();
+			pixels[cursor.getIntPosition(dimY) - (int) ii.min(dimY)][cursor
+					.getIntPosition(dimX) - (int) ii.min(dimX)] = (int) (cursor
+					.get().getRealDouble());
+		}
+		
+		setOutput(pixels);	
+	}
+
+	@Override
+	public int[][] getOutput() {
+		return output;
+	}
+
+	@Override
+	public void setOutput(int[][] _output) {
+		output = _output;
+	}
+
+	@Override
+	public boolean conforms() {
+		// check if iterable interval has dimension of 2.
+		// But Iterable interval is null...
+		return true;
 	}
 
 }

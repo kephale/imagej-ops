@@ -30,8 +30,11 @@
 package net.imagej.ops.features.tamura;
 
 import net.imagej.ops.Op;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.MeanFeature;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment4AboutMeanFeature;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
-import net.imagej.ops.features.tamura.helper.TamuraComputer;
+import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.DoubleType;
 
 import org.scijava.ItemIO;
@@ -39,6 +42,9 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 /**
+ * 
+ * Default implementation of tamura's texture contrast feature.
+ * No difference between 2D and 3D case.
  * 
  * @author Andreas Graumann, University of Konstanz
  * @author Christian Dietz, Univesity of Konstanz
@@ -48,7 +54,13 @@ import org.scijava.plugin.Plugin;
 public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 
 	@Parameter
-	TamuraComputer cp;
+	private MeanFeature<? extends RealType<?>> my;
+
+	@Parameter
+	private VarianceFeature<? extends RealType<?>> var;
+
+	@Parameter
+	private Moment4AboutMeanFeature<? extends RealType<?>> m4;
 
 	@Parameter(type = ItemIO.OUTPUT)
 	private DoubleType out;
@@ -59,8 +71,8 @@ public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 	}
 
 	@Override
-	public void setOutput(DoubleType _output) {
-		out.set(_output);
+	public void setOutput(DoubleType output) {
+		out = output;
 	}
 
 	@Override
@@ -68,12 +80,13 @@ public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 		if (out == null) {
 			out = new DoubleType();
 		}
-		
-		double res = cp.getOutput().getContrast();
-		if (Double.isNaN(res)) {
-			res = 0.0;
-		}
-		
-		setOutput( new DoubleType(res));
+
+		final double l4 = m4.getOutput().getRealDouble()
+				/ (Math.pow(var.getOutput().getRealDouble(), 2));
+		double res = Math.sqrt(var.getOutput().getRealDouble())
+				/ Math.pow(l4, 0.25);
+
+		setOutput(new DoubleType(res));
 	}
+
 }
