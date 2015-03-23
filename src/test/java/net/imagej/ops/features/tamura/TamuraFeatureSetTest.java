@@ -29,13 +29,22 @@
  */
 package net.imagej.ops.features.tamura;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.FileInputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.junit.Test;
 
 import net.imagej.ops.features.AbstractFeatureTest;
 import net.imagej.ops.features.sets.Tamura2DFeatureSet;
 import net.imagej.ops.features.sets.Tamura3DFeatureSet;
+import net.imglib2.Cursor;
+import net.imglib2.img.display.imagej.ImageJFunctions;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.util.Pair;
 
@@ -47,21 +56,41 @@ import net.imglib2.util.Pair;
  */
 public class TamuraFeatureSetTest extends AbstractFeatureTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test() {
-		@SuppressWarnings("unchecked")
 		List<Pair<String, DoubleType>> res = ops.op(
 				Tamura2DFeatureSet.class, random).getFeatureList(random);
 
-		for (Pair entry : res) {
+		for (Pair<String, DoubleType> entry : res) {
 			System.out.println(entry.getA() + ": " + entry.getB());
+		}
+//		
+//		res = ops.op(
+//				Tamura3DFeatureSet.class, random3d).getFeatureList(random3d);
+//
+//		for (Pair<String, DoubleType> entry : res) {
+//			System.out.println(entry.getA() + ": " + entry.getB());
+//		}
+//		
+		Cursor<UnsignedByteType> cur = random.cursor();
+		
+		BufferedImage image = new BufferedImage((int)random.dimension(0), (int)random.dimension(1), BufferedImage.TYPE_BYTE_GRAY);
+		WritableRaster raster = image.getRaster();
+		
+		while (cur.hasNext()) {
+			cur.next();
+			int x = cur.getIntPosition(0);
+			int y = cur.getIntPosition(1);
+			int val = cur.get().get();
+			raster.setSample(x, y, 0, val);
+			
 		}
 		
-		res = ops.op(
-				Tamura3DFeatureSet.class, random3d).getFeatureList(random3d);
-
-		for (Pair entry : res) {
-			System.out.println(entry.getA() + ": " + entry.getB());
-		}
+//        Tamura sch = new Tamura();
+//        System.out.println("image = " + image.getWidth() + " x " + image.getHeight());
+//        sch.extract(image);
+//        System.out.println("sch = " + sch.getStringRepresentation());
+		
 	}
 }

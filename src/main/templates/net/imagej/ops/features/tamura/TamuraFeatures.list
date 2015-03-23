@@ -1,8 +1,10 @@
 [TamuraFeatures.java]
 ops = ```
 [
-  {name: tamuracoarsness, iface: Coarsness},
-  {name: tamuradirectionality, iface: Directionality},
-  {name: tamuracontrast, iface: Contrast}
+  {name: tamuracoarsness2d, iface: Coarsness2d},
+  {name: tamuradirectionality2d, iface: Directionality2d},
+  {name: tamuracontrast, iface: Contrast},
+  {name: tamuracoarsness2d, iface: Coarsness3d},
+  {name: tamuradirectionality2d, iface: Directionality3d}
 ]
 ```

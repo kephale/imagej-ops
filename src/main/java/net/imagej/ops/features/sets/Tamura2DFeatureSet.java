@@ -40,14 +40,10 @@ import net.imagej.ops.Contingent;
 import net.imagej.ops.OpRef;
 import net.imagej.ops.features.AbstractAutoResolvingFeatureSet;
 import net.imagej.ops.features.FeatureSet;
-import net.imagej.ops.features.firstorder.FirstOrderFeatures.MeanFeature;
-import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment4AboutMeanFeature;
-import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
-import net.imagej.ops.features.tamura.TamuraFeatures.CoarsnessFeature;
+import net.imagej.ops.features.provider.IterableIntervalTo2dArrayProvider;
+import net.imagej.ops.features.tamura.TamuraFeatures.Coarsness2dFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
-import net.imagej.ops.features.tamura.TamuraFeatures.DirectionalityFeature;
-import net.imagej.ops.features.tamura.helper.Tamura2DComputer;
-import net.imagej.ops.features.tamura.helper.Tamura3DComputer;
+import net.imagej.ops.features.tamura.TamuraFeatures.Directionality2dFeature;
 import net.imglib2.IterableInterval;
 import net.imglib2.type.numeric.real.DoubleType;
 
@@ -78,20 +74,16 @@ public class Tamura2DFeatureSet<T> extends
 	public Set<OpRef<?>> getOutputOps() {
 
 		final HashSet<OpRef<?>> outputOps = new HashSet<OpRef<?>>();
-
-		outputOps.add(createOpRef(CoarsnessFeature.class));
-		outputOps.add(createOpRef(DirectionalityFeature.class));
 		outputOps.add(createOpRef(ContrastFeature.class));
-
+		outputOps.add(createOpRef(Directionality2dFeature.class));
+		outputOps.add(createOpRef(Coarsness2dFeature.class));
 		return outputOps;
 	}
 
 	@Override
 	public Set<OpRef<?>> getHiddenOps() {
 		final HashSet<OpRef<?>> hiddenOps = new HashSet<OpRef<?>>();
-		hiddenOps.add(createOpRef(Tamura2DComputer.class, getInput(),
-				MeanFeature.class, VarianceFeature.class,
-				Moment4AboutMeanFeature.class));
+		hiddenOps.add(createOpRef(IterableIntervalTo2dArrayProvider.class, getInput()));
 		return hiddenOps;
 	}
 }

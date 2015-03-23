@@ -31,6 +31,7 @@ package net.imagej.ops.features.tamura;
 
 import net.imagej.ops.Op;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.MeanFeature;
+import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment2AboutMeanFeature;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.Moment4AboutMeanFeature;
 import net.imagej.ops.features.firstorder.FirstOrderFeatures.VarianceFeature;
 import net.imagej.ops.features.tamura.TamuraFeatures.ContrastFeature;
@@ -57,7 +58,7 @@ public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 	private MeanFeature<? extends RealType<?>> my;
 
 	@Parameter
-	private VarianceFeature<? extends RealType<?>> var;
+	private Moment2AboutMeanFeature<? extends RealType<?>> var;
 
 	@Parameter
 	private Moment4AboutMeanFeature<? extends RealType<?>> m4;
@@ -80,6 +81,10 @@ public class DefaultContrastFeature implements ContrastFeature<DoubleType> {
 		if (out == null) {
 			out = new DoubleType();
 		}
+		
+		System.out.println("Andi: Mean " + my.getOutput().getRealDouble());
+		System.out.println("Andi: Var " + Math.sqrt(var.getOutput().getRealDouble()));
+		System.out.println("Andi: m4 " + m4.getOutput().getRealDouble());
 
 		final double l4 = m4.getOutput().getRealDouble()
 				/ (Math.pow(var.getOutput().getRealDouble(), 2));

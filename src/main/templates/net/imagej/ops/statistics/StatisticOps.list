@@ -129,8 +129,10 @@ namespace = tamura
 authors = [Christian Dietz, Daniel Seebacher, Andreas Graumann]
 ops = ```
 [
-	{name: coarsness, iface: Coarsness},
-	{name: directionality, iface: Directionality},
-	{name: contrast, iface: Contrast}
+	{name: coarsness2d, iface: Coarsness2d},
+	{name: directionality2d, iface: Directionality2d},
+	{name: contrast, iface: Contrast},
+	{name: coarsness3d, iface: Coarsness3d},
+	{name: directionality3d, iface: Directionality3d}
 ]
 ```

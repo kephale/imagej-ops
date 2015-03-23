@@ -31,14 +31,15 @@ package net.imagej.ops.features.provider;
 
 import java.util.Arrays;
 
-import org.scijava.ItemIO;
-import org.scijava.plugin.Parameter;
-
-import net.imagej.ops.Contingent;
+import net.imagej.ops.Op;
 import net.imagej.ops.OutputOp;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
 import net.imglib2.type.numeric.RealType;
+
+import org.scijava.ItemIO;
+import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 /**
  * 
@@ -47,7 +48,8 @@ import net.imglib2.type.numeric.RealType;
  * @author Andreas Graumann, University of Konstanz
  *
  */
-public class IterableIntervalTo2dArrayProvider implements OutputOp<int[][]>, Contingent {
+@Plugin(type = Op.class)
+public class IterableIntervalTo2dArrayProvider implements OutputOp<int[][]> {
 
 	@Parameter
 	private IterableInterval<? extends RealType<?>> ii;
@@ -103,11 +105,5 @@ public class IterableIntervalTo2dArrayProvider implements OutputOp<int[][]>, Con
 		output = _output;
 	}
 
-	@Override
-	public boolean conforms() {
-		// check if iterable interval has dimension of 2.
-		// But Iterable interval is null...
-		return true;
-	}
 
 }

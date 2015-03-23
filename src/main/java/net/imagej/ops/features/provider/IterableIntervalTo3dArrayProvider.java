@@ -33,8 +33,10 @@ import java.util.Arrays;
 
 import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
 
 import net.imagej.ops.Contingent;
+import net.imagej.ops.Op;
 import net.imagej.ops.OutputOp;
 import net.imglib2.Cursor;
 import net.imglib2.IterableInterval;
@@ -42,18 +44,19 @@ import net.imglib2.type.numeric.RealType;
 
 /**
  * 
- * Write an iterable interval in an 2d int array
+ * Write an iterable interval in an 3d int array
  * 
  * @author Andreas Graumann, University of Konstanz
  *
  */
+@Plugin(type = Op.class)
 public class IterableIntervalTo3dArrayProvider implements OutputOp<int[][][]>, Contingent {
 
 	@Parameter
 	private IterableInterval<? extends RealType<?>> ii;
 	
 	@Parameter(type = ItemIO.OUTPUT)
-	private int[][] output;
+	private int[][][] output;
 	
 	@Override
 	public void run() {
@@ -98,21 +101,19 @@ public class IterableIntervalTo3dArrayProvider implements OutputOp<int[][][]>, C
 
 	@Override
 	public boolean conforms() {
-		// check if iterable interval has dimension of 2.
+		// check if iterable interval has dimension of 3.
 		// But Iterable interval is null...
 		return true;
 	}
 
 	@Override
 	public int[][][] getOutput() {
-		// TODO Auto-generated method stub
-		return null;
+		return output;
 	}
 
 	@Override
-	public void setOutput(int[][][] output) {
-		// TODO Auto-generated method stub
-		
+	public void setOutput(int[][][] _output) {
+		output = _output;
 	}
 
 }
