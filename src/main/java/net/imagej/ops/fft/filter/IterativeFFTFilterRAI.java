@@ -32,6 +32,7 @@ package net.imagej.ops.fft.filter;
 
 import net.imagej.ops.OpService;
 import net.imagej.ops.convolve.ConvolveFFTRAI;
+import net.imagej.ops.fft.methods.FFTRAI;
 import net.imglib2.Cursor;
 import net.imglib2.Interval;
 import net.imglib2.RandomAccessibleInterval;
@@ -123,10 +124,10 @@ public abstract class IterativeFFTFilterRAI<I extends RealType<I>, O extends Rea
 				.interval(Views.extend(reblurred, obfOutput), imgConvolutionInterval);
 
 		// perform fft of input
-		ops.run("fft", fftInput, raiExtendedInput);
+		ops.run(FFTRAI.class, fftInput, raiExtendedInput);
 
 		// perform fft of psf
-		ops.run("fft", fftKernel, raiExtendedKernel);
+		ops.run(FFTRAI.class, fftKernel, raiExtendedKernel);
 
 		// set first guess of estimate
 		// TODO: implement logic for various first guesses.

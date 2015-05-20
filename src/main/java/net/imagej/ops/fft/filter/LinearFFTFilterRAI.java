@@ -30,6 +30,8 @@
 
 package net.imagej.ops.fft.filter;
 
+import net.imagej.ops.fft.methods.FFTRAI;
+import net.imagej.ops.fft.methods.IFFTRAI;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.ComplexType;
 import net.imglib2.type.numeric.RealType;
@@ -52,12 +54,12 @@ public abstract class LinearFFTFilterRAI<I extends RealType<I>, O extends RealTy
 
 		// perform input FFT if needed
 		if (performInputFFT) {
-			ops.run("fft", fftInput, raiExtendedInput);
+			ops.run(FFTRAI.class, fftInput, raiExtendedInput);
 		}
 
 		// perform kernel FFT if needed
 		if (performKernelFFT) {
-			ops.run("fft", fftKernel, raiExtendedKernel);
+			ops.run(FFTRAI.class, fftKernel, raiExtendedKernel);
 		}
 
 		// perform the operation in frequency domain (ie multiplication for
@@ -66,7 +68,7 @@ public abstract class LinearFFTFilterRAI<I extends RealType<I>, O extends RealTy
 		frequencyOperation(fftInput, fftKernel);
 
 		// inverse fft
-		ops.run("ifft", output, fftInput);
+		ops.run(IFFTRAI.class, output, fftInput);
 	}
 
 	// abstract function that implements an operation in frequency domain (ie
