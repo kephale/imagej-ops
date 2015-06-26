@@ -1,0 +1,24 @@
+# Unit tests for convert ops
+
+[TestConvertType.java]
+types = ```
+[
+	[op: "Bit",      imglibT:"BitType",            posValue:"true",                       posReal:"1",                          posImag:"0",               zeroValue:"false",                                                                                             cast:"bit"],
+	[op: "Uint2",    imglibT:"Unsigned2BitType",   posValue:"2",                          posReal:"2",                          posImag:"0",               zeroValue:"0",                                                                                                 cast:"uint2"],
+	[op: "Uint4",    imglibT:"Unsigned4BitType",   posValue:"15",                         posReal:"15",                         posImag:"0",               zeroValue:"0",                                                                                                 cast:"uint4"],
+	[op: "Int8",     imglibT:"ByteType",           posValue:"(byte) 8",                   posReal:"(byte) 8",                   posImag:"(byte) 0",        zeroValue:"(byte) 0",        negValue:"(byte) -12",         negReal:"(byte) -12",        negImag:"(byte) 0",   cast:"int8"],
+	[op: "Uint8",    imglibT:"UnsignedByteType",   posValue:"100",                        posReal:"100",                        posImag:"0",               zeroValue:"0",                                                                                                 cast:"uint8"],
+	[op: "Uint12",   imglibT:"Unsigned12BitType",  posValue:"212L",                       posReal:"212L",                       posImag:"0L",              zeroValue:"0L",                                                                                                cast:"uint12"],
+	[op: "Int16",    imglibT:"ShortType",          posValue:"(short) 52",                 posReal:"(short) 52",                 posImag:"(short) 0",       zeroValue:"(short) 0",       negValue:"(short) -154",       negReal:"(short) -154",      negImag:"(short) 0",  cast:"int16"],
+	[op: "Uint16",   imglibT:"UnsignedShortType",  posValue:"480",                        posReal:"480",                        posImag:"0",               zeroValue:"0",                                                                                                 cast:"uint16"],
+	[op: "Int32",    imglibT:"IntType",            posValue:"301",                        posReal:"301",                        posImag:"0",               zeroValue:"0",               negValue:"-89",                negReal:"-89",               negImag:"0",          cast:"int32"],
+	[op: "Uint32",   imglibT:"UnsignedIntType",    posValue:"20L",                        posReal:"20L",                        posImag:"0L",              zeroValue:"0L",                                                                                                cast:"uint32"],
+	[op: "Int64",    imglibT:"LongType",           posValue:"891L",                       posReal:"891L",                       posImag:"0L",              zeroValue:"0L",              negValue:"-1024L",             negReal:"-1024L",            negImag:"0L",         cast:"int64"],
+	[op: "Uint64",   imglibT:"UnsignedLongType",   posValue:"1049L",                      posReal:"1049L",                      posImag:"0L",              zeroValue:"0L",                                                                                                cast:"uint64"],
+	[op: "Uint128",  imglibT:"Unsigned128BitType", posValue:"BigInteger.valueOf(0xbeef)", posReal:"BigInteger.valueOf(0xbeef)", posImag:"BigInteger.ZERO", zeroValue:"BigInteger.ZERO",                                                                                   cast:"uint128"],
+	[op: "Float32",  imglibT:"FloatType",          posValue:"123453.125f",                posReal:"123453.125f",                posImag:"0f",              zeroValue:"0f",              negValue:"-2523485349058.0f",  negReal:"-2523485349058.0f", negImag:"0f",         cast:"float32"],
+	[op: "Cfloat32", imglibT:"ComplexFloatType",   posValue:"5839.25f, 120f",             posReal:"5839.25f",                   posImag:"120f",            zeroValue:"0f",              negValue:"-4.25f, -123.0625f", negReal:"-4.25f",            negImag:"-123.0625f", cast:"float32"],
+	[op: "Float64",  imglibT:"DoubleType",         posValue:"4098d",                      posReal:"4098d",                      posImag:"0d",              zeroValue:"0d",              negValue:"-10948.015625d",     negReal:"-10948.015625d",    negImag:"0d",         cast:"float64"],
+	[op: "Cfloat64", imglibT:"ComplexDoubleType",  posValue:"9087d, 879542.125d",         posReal:"9087d",                      posImag:"879542.125d",     zeroValue:"0d",              negValue:"-234.25d, -9.0d",    negReal:"-234.25d",          negImag:"-9.0d",      cast:"float64"]
+]
+```
