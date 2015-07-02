@@ -132,6 +132,8 @@
 
 	<properties>
 		<main-class>net.imagej.ops.Main</main-class>
+		<imglib2.version>LATEST</imglib2.version>
+		<enforcer.skip>true</enforcer.skip>
 	</properties>
 
 	<repositories>
