@@ -36,6 +36,7 @@ import net.imagej.ops.ConvertOps;
 import net.imagej.ops.Op;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.ComplexType;
+import net.imglib2.type.numeric.IntegerType;
 import net.imglib2.type.numeric.complex.ComplexDoubleType;
 import net.imglib2.type.numeric.complex.ComplexFloatType;
 import net.imglib2.type.numeric.integer.ByteType;
@@ -100,6 +101,24 @@ public final class ConvertTypes {
 
 	}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint2.NAME, priority = 0.4)
+	public static class IntegerToUint2< T extends IntegerType< T >> implements
+		ConvertOps.Uint2
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private Unsigned2BitType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new Unsigned2BitType(in.getIntegerLong());
+		}
+
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Uint4.NAME, priority = 0.4)
 	public static class ComplexToUint4<C extends ComplexType<C>> implements
 		ConvertOps.Uint4
@@ -114,6 +133,24 @@ public final class ConvertTypes {
 		@Override
 		public void run() {
 			result = new Unsigned4BitType((long) in.getRealDouble());
+		}
+
+	}
+
+	@Plugin(type = Op.class, name = ConvertOps.Uint4.NAME, priority = 0.4)
+	public static class IntegerToUint4< T extends IntegerType< T >> implements
+		ConvertOps.Uint4
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private Unsigned4BitType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new Unsigned4BitType(in.getIntegerLong());
 		}
 
 	}
@@ -156,6 +193,25 @@ public final class ConvertTypes {
 
 		}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint8.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint8.ALIASES) })
+		public static class IntegerToUint8< T extends IntegerType< T >> implements
+			ConvertOps.Uint8
+		{
+
+			@Parameter(type = ItemIO.OUTPUT)
+			private UnsignedByteType result;
+
+			@Parameter
+			private T in;
+
+			@Override
+			public void run() {
+				result = new UnsignedByteType(in.getInteger());
+			}
+
+		}
+
 	@Plugin(type = Op.class, name = ConvertOps.Uint12.NAME, priority = 0.4)
 		public static class ComplexToUint12<C extends ComplexType<C>> implements
 			ConvertOps.Uint12
@@ -173,6 +229,24 @@ public final class ConvertTypes {
 			}
 
 		}
+
+	@Plugin(type = Op.class, name = ConvertOps.Uint12.NAME, priority = 0.4)
+	public static class IntegerToUint12< T extends IntegerType< T >> implements
+		ConvertOps.Uint12
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private Unsigned12BitType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new Unsigned12BitType(in.getIntegerLong());
+		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int16.NAME, priority = 0.4,
 			attrs = { @Attr(name = "aliases", value = ConvertOps.Int16.ALIASES) })
@@ -212,6 +286,25 @@ public final class ConvertTypes {
 
 	}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint16.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint16.ALIASES) })
+	public static class IntegerToUint16< T extends IntegerType< T >> implements
+		ConvertOps.Uint16
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private UnsignedShortType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new UnsignedShortType(in.getInteger());
+		}
+
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Int32.NAME, priority = 0.4,
 			attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
 	public static class ComplexToInt32<C extends ComplexType<C>> implements
@@ -227,6 +320,25 @@ public final class ConvertTypes {
 		@Override
 		public void run() {
 			result = new IntType((int) in.getRealDouble());
+		}
+
+	}
+
+	@Plugin(type = Op.class, name = ConvertOps.Int32.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
+	public static class IntegerToInt32< T extends IntegerType< T >> implements
+		ConvertOps.Int32
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private IntType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new IntType(in.getInteger());
 		}
 
 	}
@@ -250,6 +362,25 @@ public final class ConvertTypes {
 
 	}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint32.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint32.ALIASES) })
+	public static class IntegerToUint32< T extends IntegerType< T >> implements
+		ConvertOps.Uint32
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private UnsignedIntType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new UnsignedIntType(in.getIntegerLong());
+		}
+
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Int64.NAME, priority = 0.4,
 			attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
 	public static class ComplexToInt64<C extends ComplexType<C>> implements
@@ -265,6 +396,25 @@ public final class ConvertTypes {
 		@Override
 		public void run() {
 			result = new LongType((long) in.getRealDouble());
+		}
+
+	}
+
+	@Plugin(type = Op.class, name = ConvertOps.Int64.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
+	public static class IntegerToInt64< T extends IntegerType< T >> implements
+		ConvertOps.Int64
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private LongType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new LongType(in.getIntegerLong());
 		}
 
 	}
@@ -288,6 +438,25 @@ public final class ConvertTypes {
 
 	}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint64.NAME, priority = 0.4,
+			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint64.ALIASES) })
+	public static class IntegerToUint64< T extends IntegerType< T >> implements
+		ConvertOps.Uint64
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private UnsignedLongType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new UnsignedLongType(in.getIntegerLong());
+		}
+
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Uint128.NAME, priority = 0.4)
 	public static class ComplexToUint128<C extends ComplexType<C>> implements
 		ConvertOps.Uint128
@@ -306,6 +475,24 @@ public final class ConvertTypes {
 
 	}
 
+	@Plugin(type = Op.class, name = ConvertOps.Uint128.NAME, priority = 0.4)
+	public static class IntegerToUint128< T extends IntegerType< T >> implements
+		ConvertOps.Uint128
+	{
+
+		@Parameter(type = ItemIO.OUTPUT)
+		private Unsigned128BitType result;
+
+		@Parameter
+		private T in;
+
+		@Override
+		public void run() {
+			result = new Unsigned128BitType(BigInteger.valueOf(in.getIntegerLong()));
+		}
+
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Float32.NAME, priority = 0.4,
 			attrs = { @Attr(name = "aliases", value = ConvertOps.Float32.ALIASES) })
 		public static class ComplexToFloat32<C extends ComplexType<C>> implements
@@ -320,7 +507,7 @@ public final class ConvertTypes {
 
 			@Override
 			public void run() {
-				result = new FloatType((float) in.getRealDouble());
+				result = new FloatType(in.getRealFloat());
 			}
 
 		}
