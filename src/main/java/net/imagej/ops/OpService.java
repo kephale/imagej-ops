@@ -38,6 +38,7 @@ import java.util.Map;
 import net.imagej.ImageJService;
 import net.imagej.ImgPlus;
 import net.imagej.ops.chunker.Chunk;
+import net.imagej.ops.convert.ConvertNamespace;
 import net.imagej.ops.convert.ConvertPix;
 import net.imagej.ops.create.CreateOps;
 import net.imagej.ops.deconvolve.DeconvolveNamespace;
@@ -1135,6 +1136,9 @@ public interface OpService extends PTService<Op>, ImageJService {
 
 	/** Gateway into ops of the "deconvolve" namespace. */
 	DeconvolveNamespace deconvolve();
+
+	/** Gateway into ops of the "convert" namespace. */
+	ConvertNamespace convert();
 
 	/** Gateway into ops of the "logic" namespace. */
 	LogicNamespace logic();

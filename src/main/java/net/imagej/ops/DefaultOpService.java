@@ -41,6 +41,7 @@ import java.util.Map;
 import net.imagej.ImgPlus;
 import net.imagej.ops.chunker.Chunk;
 import net.imagej.ops.chunker.Chunker;
+import net.imagej.ops.convert.ConvertNamespace;
 import net.imagej.ops.convert.ConvertPix;
 import net.imagej.ops.create.CreateOps;
 import net.imagej.ops.deconvolve.DeconvolveNamespace;
@@ -105,6 +106,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	private LogService log;
 
 	private DeconvolveNamespace deconvolve;
+	private ConvertNamespace convert;
 	private LogicNamespace logic;
 	private MathNamespace math;
 	private ThresholdNamespace threshold;
@@ -1945,6 +1947,12 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	}
 
 	@Override
+	public ConvertNamespace convert() {
+		if (!namespacesReady) initNamespaces();
+		return convert;
+	}
+
+	@Override
 	public LogicNamespace logic() {
 		if (!namespacesReady) initNamespaces();
 		return logic;
@@ -1991,6 +1999,8 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 		if (namespacesReady) return;
 		deconvolve = new DeconvolveNamespace();
 		getContext().inject(deconvolve);
+		convert = new ConvertNamespace();
+		getContext().inject(convert);
 		logic = new LogicNamespace();
 		getContext().inject(logic);
 		math = new MathNamespace();
