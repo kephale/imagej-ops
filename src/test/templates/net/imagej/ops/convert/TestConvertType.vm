@@ -70,7 +70,7 @@ public class TestConvertType extends AbstractOpTest{
 	@Test
 	public void test${type2.op}To${type.op}() {
 		final $type2.imglibT b = new ${type2.imglibT}(${type2.posValue});
-		final Object result = ops.run(${className}.class, b);
+		final Object result = ops.convert().${type.built}(b);
 		assertTrue(result instanceof $type.imglibT);
 
 #if ($type.op.equals("Cfloat32"))
@@ -81,8 +81,8 @@ public class TestConvertType extends AbstractOpTest{
 #else
 		b.set($type2.zeroValue);
 #end
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).getRealFloat(), 0);
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).getImaginaryFloat(), 0);
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).getRealFloat(), 0);
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).getImaginaryFloat(), 0);
 
 #elseif ($type.op.equals("Cfloat64"))
 		assertEquals($methodName(${type2.posReal}), ((${type.imglibT})result).getRealDouble(), 0);
@@ -93,8 +93,8 @@ public class TestConvertType extends AbstractOpTest{
 #else
 		b.set($type2.zeroValue);
 #end
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).getRealDouble(), 0);
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).getImaginaryDouble(), 0);
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).getRealDouble(), 0);
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).getImaginaryDouble(), 0);
 
 #elseif ($type.op.contains("Float"))
 		assertEquals($methodName(${type2.posReal}), ((${type.imglibT})result).get(), 0);
@@ -104,7 +104,7 @@ public class TestConvertType extends AbstractOpTest{
 #else
 		b.set($type2.zeroValue);
 #end
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).get(), 0);
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).get(), 0);
 #else
 		assertEquals($methodName(${type2.posReal}), ((${type.imglibT})result).get());
 
@@ -113,24 +113,25 @@ public class TestConvertType extends AbstractOpTest{
 #else
 		b.set($type2.zeroValue);
 #end
-		assertEquals($type.zeroValue, ((${type.imglibT})ops.run(${className}.class, b)).get());
+		assertEquals($type.zeroValue, ops.convert().${type.built}(b).get());
 #end
 
 #if ($type2.negValue)
 		b.set($type2.negValue);
 #if ($type.op.equals("Cfloat32"))
-		assertEquals($methodName(${type2.negReal}), ((${type.imglibT})ops.run(${className}.class, b)).getRealFloat(), 0);
-		assertEquals($methodName(${type2.negImag}), ((${type.imglibT})ops.run(${className}.class, b)).getImaginaryFloat(), 0);
+		assertEquals($methodName(${type2.negReal}), ops.convert().${type.built}(b).getRealFloat(), 0);
+		assertEquals($methodName(${type2.negImag}), ops.convert().${type.built}(b).getImaginaryFloat(), 0);
 #elseif ($type.op.equals("Cfloat64"))
-		assertEquals($methodName(${type2.negReal}), ((${type.imglibT})ops.run(${className}.class, b)).getRealDouble(), 0);
-		assertEquals($methodName(${type2.negImag}), ((${type.imglibT})ops.run(${className}.class, b)).getImaginaryDouble(), 0);
+		assertEquals($methodName(${type2.negReal}), ops.convert().${type.built}(b).getRealDouble(), 0);
+		assertEquals($methodName(${type2.negImag}), ops.convert().${type.built}(b).getImaginaryDouble(), 0);
 #elseif($type.op.contains("Float"))
-		assertEquals($methodName(${type2.negReal}), ((${type.imglibT})ops.run(${className}.class, b)).get(), 0);
+		assertEquals($methodName(${type2.negReal}), ops.convert().${type.built}(b).get(), 0);
 #else
-		assertEquals($methodName(${type2.negReal}), ((${type.imglibT})ops.run(${className}.class, b)).get());
+		assertEquals($methodName(${type2.negReal}), ops.convert().${type.built}(b).get());
 #end
 #end
 	}
+
 #end
 #end
 }
