@@ -133,15 +133,32 @@ public interface OpService extends PTService<Op>, ImageJService {
 	 * Gets the best {@link Op} to use for the given operation type and arguments,
 	 * populating its inputs.
 	 *
-	 * @param type The {@link Class} of the operation. If multiple {@link Op}s
-	 *          share this type (e.g., the type is an interface which multiple
-	 *          {@link Op}s implement), then the best {@link Op} implementation to
-	 *          use will be selected automatically from the type and arguments.
+	 * @param type The {@link Class} of the operation. If multiple ops share this
+	 *          type (e.g., the type is an interface which multiple ops
+	 *          implement), then the best op implementation to use will be
+	 *          selected automatically from the type and arguments.
 	 * @param args The operation's arguments.
 	 * @return An {@link Op} with populated inputs, ready to run.
 	 */
 	@OpMethod(op = net.imagej.ops.lookup.LookupByType.class)
 	<OP extends Op> OP op(Class<OP> type, Object... args);
+
+	/**
+	 * Gets the best {@link InputOutputOp} to use for the given operation types
+	 * and arguments, populating its inputs.
+	 *
+	 * @param opType The {@link Class} of the operation. If multiple ops share
+	 *          this type (e.g., the type is an interface which multiple ops
+	 *          implement), then the best op implementation to use will be
+	 *          selected automatically from the type and arguments.
+	 * @param inputType Type restriction for the op's special input parameter.
+	 * @param outputType Type restriction for the op's special output parameter.
+	 * @param args The operation's arguments.
+	 * @return An {@link InputOutputOp} with populated inputs, ready to run.
+	 */
+//	@OpMethod(op = net.imagej.ops.lookup.LookupByType.class)
+	<I, O, OP extends InputOutputOp<I, O>> OP op(Class<OP> opType,
+		Class<I> inputType, Class<O> outputType, Object... args);
 
 	/**
 	 * Gets the best {@link Op} to use for the given operation and arguments,

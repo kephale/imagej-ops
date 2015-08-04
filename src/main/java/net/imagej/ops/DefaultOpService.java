@@ -128,6 +128,17 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	}
 
 	@Override
+	public <I, O, OP extends InputOutputOp<I, O>> OP op(final Class<OP> opType,
+		final Class<I> inputType, final Class<O> outputType, final Object... args)
+	{
+		final Module module = module(opType, inputType, outputType, args);
+		if (module == null) return null;
+		@SuppressWarnings("unchecked")
+		final OP op = (OP) module.getDelegateObject();
+		return op;
+	}
+
+	@Override
 	public Module module(final String name, final Object... args) {
 		return matcher.findModule(new OpRef<Op>(name, args));
 	}
@@ -135,6 +146,14 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	@Override
 	public <OP extends Op> Module module(final Class<OP> type,
 		final Object... args)
+	{
+		return matcher.findModule(new OpRef<OP>(type, args));
+	}
+
+	@Override
+	public <I, O, OP extends InputOutputOp<I, O>> Module module(
+		final Class<OP> opType, final Class<I> inputType,
+		final Class<O> outputType, final Object... args)
 	{
 		return matcher.findModule(new OpRef<OP>(type, args));
 	}
