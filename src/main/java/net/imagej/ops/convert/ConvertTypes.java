@@ -66,22 +66,22 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Bit.NAME, priority = 0.4)
-		public static class ComplexToBit<C extends ComplexType<C>> implements
-			ConvertOps.Bit
-		{
+	public static class ComplexToBit<C extends ComplexType<C>> implements
+		ConvertOps.Bit
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private BitType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private BitType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new BitType(in.getRealDouble() != 0);
-			}
-
+		@Override
+		public void run() {
+			result = new BitType(in.getRealDouble() != 0);
 		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint2.NAME, priority = 0.4)
 	public static class ComplexToUint2<C extends ComplexType<C>> implements
@@ -102,7 +102,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint2.NAME, priority = 0.4)
-	public static class IntegerToUint2< T extends IntegerType< T >> implements
+	public static class IntegerToUint2<T extends IntegerType<T>> implements
 		ConvertOps.Uint2
 	{
 
@@ -138,7 +138,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint4.NAME, priority = 0.4)
-	public static class IntegerToUint4< T extends IntegerType< T >> implements
+	public static class IntegerToUint4<T extends IntegerType<T>> implements
 		ConvertOps.Uint4
 	{
 
@@ -156,82 +156,82 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int8.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int8.ALIASES) })
-		public static class ComplexToInt8<C extends ComplexType<C>> implements
-			ConvertOps.Int8
-		{
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int8.ALIASES) })
+	public static class ComplexToInt8<C extends ComplexType<C>> implements
+		ConvertOps.Int8
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private ByteType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private ByteType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new ByteType((byte) in.getRealDouble());
-			}
-
+		@Override
+		public void run() {
+			result = new ByteType((byte) in.getRealDouble());
 		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint8.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint8.ALIASES) })
-		public static class ComplexToUint8<C extends ComplexType<C>> implements
-			ConvertOps.Uint8
-		{
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint8.ALIASES) })
+	public static class ComplexToUint8<C extends ComplexType<C>> implements
+		ConvertOps.Uint8
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private UnsignedByteType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private UnsignedByteType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new UnsignedByteType((int) in.getRealDouble());
-			}
-
+		@Override
+		public void run() {
+			result = new UnsignedByteType((int) in.getRealDouble());
 		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint8.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint8.ALIASES) })
-		public static class IntegerToUint8< T extends IntegerType< T >> implements
-			ConvertOps.Uint8
-		{
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint8.ALIASES) })
+	public static class IntegerToUint8<T extends IntegerType<T>> implements
+		ConvertOps.Uint8
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private UnsignedByteType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private UnsignedByteType result;
 
-			@Parameter
-			private T in;
+		@Parameter
+		private T in;
 
-			@Override
-			public void run() {
-				result = new UnsignedByteType(in.getInteger());
-			}
-
+		@Override
+		public void run() {
+			result = new UnsignedByteType(in.getInteger());
 		}
 
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Uint12.NAME, priority = 0.4)
-		public static class ComplexToUint12<C extends ComplexType<C>> implements
-			ConvertOps.Uint12
-		{
+	public static class ComplexToUint12<C extends ComplexType<C>> implements
+		ConvertOps.Uint12
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private Unsigned12BitType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private Unsigned12BitType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new Unsigned12BitType((long) in.getRealDouble());
-			}
-
+		@Override
+		public void run() {
+			result = new Unsigned12BitType((long) in.getRealDouble());
 		}
 
+	}
+
 	@Plugin(type = Op.class, name = ConvertOps.Uint12.NAME, priority = 0.4)
-	public static class IntegerToUint12< T extends IntegerType< T >> implements
+	public static class IntegerToUint12<T extends IntegerType<T>> implements
 		ConvertOps.Uint12
 	{
 
@@ -249,7 +249,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int16.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int16.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int16.ALIASES) })
 	public static class ComplexToInt16<C extends ComplexType<C>> implements
 		ConvertOps.Int16
 	{
@@ -268,7 +268,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint16.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint16.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint16.ALIASES) })
 	public static class ComplexToUint16<C extends ComplexType<C>> implements
 		ConvertOps.Uint16
 	{
@@ -287,8 +287,8 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint16.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint16.ALIASES) })
-	public static class IntegerToUint16< T extends IntegerType< T >> implements
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint16.ALIASES) })
+	public static class IntegerToUint16<T extends IntegerType<T>> implements
 		ConvertOps.Uint16
 	{
 
@@ -306,7 +306,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
 	public static class ComplexToInt32<C extends ComplexType<C>> implements
 		ConvertOps.Int32
 	{
@@ -325,8 +325,8 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
-	public static class IntegerToInt32< T extends IntegerType< T >> implements
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int32.ALIASES) })
+	public static class IntegerToInt32<T extends IntegerType<T>> implements
 		ConvertOps.Int32
 	{
 
@@ -344,7 +344,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint32.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint32.ALIASES) })
 	public static class ComplexToUint32<C extends ComplexType<C>> implements
 		ConvertOps.Uint32
 	{
@@ -363,8 +363,8 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint32.ALIASES) })
-	public static class IntegerToUint32< T extends IntegerType< T >> implements
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint32.ALIASES) })
+	public static class IntegerToUint32<T extends IntegerType<T>> implements
 		ConvertOps.Uint32
 	{
 
@@ -382,7 +382,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int64.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
 	public static class ComplexToInt64<C extends ComplexType<C>> implements
 		ConvertOps.Int64
 	{
@@ -401,8 +401,8 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Int64.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
-	public static class IntegerToInt64< T extends IntegerType< T >> implements
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Int64.ALIASES) })
+	public static class IntegerToInt64<T extends IntegerType<T>> implements
 		ConvertOps.Int64
 	{
 
@@ -420,7 +420,7 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint64.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint64.ALIASES) })
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint64.ALIASES) })
 	public static class ComplexToUint64<C extends ComplexType<C>> implements
 		ConvertOps.Uint64
 	{
@@ -439,8 +439,8 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint64.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Uint64.ALIASES) })
-	public static class IntegerToUint64< T extends IntegerType< T >> implements
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Uint64.ALIASES) })
+	public static class IntegerToUint64<T extends IntegerType<T>> implements
 		ConvertOps.Uint64
 	{
 
@@ -470,13 +470,14 @@ public final class ConvertTypes {
 
 		@Override
 		public void run() {
-			result = new Unsigned128BitType(BigInteger.valueOf((long) in.getRealDouble()));
+			result =
+				new Unsigned128BitType(BigInteger.valueOf((long) in.getRealDouble()));
 		}
 
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Uint128.NAME, priority = 0.4)
-	public static class IntegerToUint128< T extends IntegerType< T >> implements
+	public static class IntegerToUint128<T extends IntegerType<T>> implements
 		ConvertOps.Uint128
 	{
 
@@ -494,42 +495,42 @@ public final class ConvertTypes {
 	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Float32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Float32.ALIASES) })
-		public static class ComplexToFloat32<C extends ComplexType<C>> implements
-			ConvertOps.Float32
-		{
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Float32.ALIASES) })
+	public static class ComplexToFloat32<C extends ComplexType<C>> implements
+		ConvertOps.Float32
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private FloatType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private FloatType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new FloatType(in.getRealFloat());
-			}
-
+		@Override
+		public void run() {
+			result = new FloatType(in.getRealFloat());
 		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Cfloat32.NAME, priority = 0.4,
-			attrs = { @Attr(name = "aliases", value = ConvertOps.Cfloat32.ALIASES) })
-		public static class ComplexToCfloat32<C extends ComplexType<C>> implements
-			ConvertOps.Cfloat32
-		{
+		attrs = { @Attr(name = "aliases", value = ConvertOps.Cfloat32.ALIASES) })
+	public static class ComplexToCfloat32<C extends ComplexType<C>> implements
+		ConvertOps.Cfloat32
+	{
 
-			@Parameter(type = ItemIO.OUTPUT)
-			private ComplexFloatType result;
+		@Parameter(type = ItemIO.OUTPUT)
+		private ComplexFloatType result;
 
-			@Parameter
-			private C in;
+		@Parameter
+		private C in;
 
-			@Override
-			public void run() {
-				result = new ComplexFloatType(in.getRealFloat(), in.getImaginaryFloat());
-			}
-
+		@Override
+		public void run() {
+			result = new ComplexFloatType(in.getRealFloat(), in.getImaginaryFloat());
 		}
+
+	}
 
 	@Plugin(type = Op.class, name = ConvertOps.Float64.NAME, priority = 0.4,
 		attrs = { @Attr(name = "aliases", value = ConvertOps.Float64.ALIASES) })
@@ -564,7 +565,8 @@ public final class ConvertTypes {
 
 		@Override
 		public void run() {
-			result = new ComplexDoubleType(in.getRealDouble(), in.getImaginaryDouble());
+			result =
+				new ComplexDoubleType(in.getRealDouble(), in.getImaginaryDouble());
 		}
 
 	}
