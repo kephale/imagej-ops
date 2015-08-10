@@ -44,7 +44,7 @@ public final class Types {
 
 	private Types() { }
 
-	public static boolean bit(final long value) { return (value != 0); } 
+	public static boolean bit(final long value) { return (value != 0); }
 
 	public static boolean bit(final double value) { return bit((long) value); }
 
@@ -52,7 +52,7 @@ public final class Types {
 
 	public static boolean bit(final BigInteger value) { return (value.compareTo(BigInteger.ZERO) != 0) ? true : false; }
 
-	public static long uint2(final long value) { return (value & 0x3);} 
+	public static long uint2(final long value) { return (value & 0x3);}
 
 	public static long uint2(final double value) { return uint2((long) value); }
 
@@ -60,7 +60,7 @@ public final class Types {
 
 	public static long uint2(final boolean value) { return uint8(value); }
 
-	public static long uint4(final long value) { return (value & 0xf); } 
+	public static long uint4(final long value) { return (value & 0xf); }
 
 	public static long uint4(final double value) { return uint4((long) value); }
 
@@ -108,7 +108,7 @@ public final class Types {
 
 	public static int uint16(final boolean value) { return value ? 1 : 0; }
 
-	public static int int32(final long value) { return (int) value; } 
+	public static int int32(final long value) { return (int) value; }
 
 	public static int int32(final double value) { return (int) value; }
 
