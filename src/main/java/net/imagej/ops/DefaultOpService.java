@@ -197,8 +197,9 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	{
 		@SuppressWarnings("unchecked")
 		final IterableInterval<O> result =
-			(IterableInterval<O>) run(net.imagej.ops.convert.ConvertIterableInterval.class, out,
-				in, pixConvert);
+			(IterableInterval<O>) run(
+				net.imagej.ops.convert.ConvertIterableInterval.class, out, in,
+				pixConvert);
 		return result;
 	}
 
@@ -272,8 +273,8 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	}
 
 	@Override
-	public <A, B, C> C join(final C out, final A in, final ComputerOp<A, B> first,
-		final ComputerOp<B, C> second)
+	public <A, B, C> C join(final C out, final A in,
+		final ComputerOp<A, B> first, final ComputerOp<B, C> second)
 	{
 		@SuppressWarnings("unchecked")
 		final C result =
@@ -283,8 +284,9 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	}
 
 	@Override
-	public <A, B, C> C join(final C out, final A in, final ComputerOp<A, B> first,
-		final ComputerOp<B, C> second, final BufferFactory<A, B> bufferFactory)
+	public <A, B, C> C join(final C out, final A in,
+		final ComputerOp<A, B> first, final ComputerOp<B, C> second,
+		final BufferFactory<A, B> bufferFactory)
 	{
 		@SuppressWarnings("unchecked")
 		final C result =
@@ -311,8 +313,8 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 	{
 		@SuppressWarnings("unchecked")
 		final A result =
-			(A) run(net.imagej.ops.join.DefaultJoinComputers.class, out, in,
-				ops, bufferFactory);
+			(A) run(net.imagej.ops.join.DefaultJoinComputers.class, out, in, ops,
+				bufferFactory);
 		return result;
 	}
 
@@ -428,8 +430,7 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 		@SuppressWarnings("unchecked")
 		final IterableInterval<B> result =
 			(IterableInterval<B>) run(
-				net.imagej.ops.map.MapIterableIntervalToView.class, input, op,
-				type);
+				net.imagej.ops.map.MapIterableIntervalToView.class, input, op, type);
 		return result;
 	}
 
@@ -497,10 +498,11 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 		@SuppressWarnings("unchecked")
 		final RandomAccessibleInterval<O> result =
 			(RandomAccessibleInterval<O>) run(
-				net.imagej.ops.map.neighborhood.MapNeighborhood.class, out, in, op, shape);
+				net.imagej.ops.map.neighborhood.MapNeighborhood.class, out, in, op,
+				shape);
 		return result;
 	}
-	
+
 	@Override
 	public <I, O> RandomAccessibleInterval<O> map(
 		final RandomAccessibleInterval<O> out,
@@ -510,7 +512,8 @@ public class DefaultOpService extends AbstractPTService<Op> implements
 		@SuppressWarnings("unchecked")
 		final RandomAccessibleInterval<O> result =
 			(RandomAccessibleInterval<O>) run(
-				net.imagej.ops.map.neighborhood.MapNeighborhoodWithCenter.class, out, in, func, shape);
+				net.imagej.ops.map.neighborhood.MapNeighborhoodWithCenter.class, out,
+				in, func, shape);
 		return result;
 	}
 
