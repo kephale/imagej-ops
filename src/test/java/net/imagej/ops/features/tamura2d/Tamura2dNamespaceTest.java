@@ -28,21 +28,26 @@
  * #L%
  */
 package net.imagej.ops.features.tamura2d;
-import net.imagej.ops.HybridOp;
-import net.imglib2.RandomAccessibleInterval;
-import net.imglib2.type.numeric.RealType;
+
+import org.junit.Test;
+
+import net.imagej.ops.AbstractNamespaceTest;
 
 /**
  * 
- * Marker interface for tamura features.
+ * Tests the {@Link TamuraNamespace}
  * 
  * @author Andreas Graumann, University of Konstanz
  *
- * @param <I>
- * 			type of of the incoming iterable interval
- * @param <O>
- * 			output type
  */
-public interface TamuraFeature<I extends RealType<I>, O extends RealType<O>> extends HybridOp<RandomAccessibleInterval<I>, O> {
-	// NB: marker interface
+public class Tamura2dNamespaceTest extends AbstractNamespaceTest {
+
+	/**
+	 * Tests that the ops of the math namespace have corresponding type-safe
+	 * Java method signatures declared in the {@link TamuraNamespace} class.
+	 */
+	@Test
+	public void testCompleteness() {
+		assertComplete("tamura2d", TamuraNamespace.class);
+	}
 }

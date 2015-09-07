@@ -28,21 +28,35 @@
  * #L%
  */
 package net.imagej.ops.features.tamura2d;
-import net.imagej.ops.HybridOp;
+
+import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
+
+import net.imagej.ops.OpService;
+import net.imagej.ops.Ops.Tamura2d;
+import net.imagej.ops.Ops.Tamura2d.Contrast;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.type.numeric.RealType;
 
 /**
  * 
- * Marker interface for tamura features.
+ * Default implementation of tamura feature contrast.
  * 
- * @author Andreas Graumann, University of Konstanz
+ * @author Andeas Graumann, Univesity of Konstanz
  *
- * @param <I>
- * 			type of of the incoming iterable interval
- * @param <O>
- * 			output type
  */
-public interface TamuraFeature<I extends RealType<I>, O extends RealType<O>> extends HybridOp<RandomAccessibleInterval<I>, O> {
-	// NB: marker interface
+@Plugin(type = TamuraFeature.class, label = "Tamura 2D: Contrast", name = Tamura2d.Contrast.NAME)
+public class DefaultContrastFeature<I extends RealType<I>, O extends RealType<O>> extends AbstractTamuraFeature<I, O>
+		implements Contrast {
+
+	@Parameter
+	private OpService ops;
+
+	@Override
+	public void compute(RandomAccessibleInterval<I> input, O output) {
+				
+
+
+	}
+
 }

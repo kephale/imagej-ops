@@ -29,23 +29,38 @@
  */
 package net.imagej.ops.features.tamura2d;
 
-import net.imagej.ops.AbstractHybridOp;
-import net.imagej.ops.Contingent;
-import net.imglib2.IterableInterval;
-import net.imglib2.type.numeric.RealType;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import net.imagej.ops.Ops.Tamura2d.Coarseness;
+import net.imagej.ops.features.AbstractFeatureTest;
 
 /**
  * 
- * Abstract tamura feature.
+ * Test for {@Link Tamura2d}-Features
  * 
  * @author Andreas Graumann, University of Konstanz
  *
- * @param <I>
- * 			type of incoming iterable interval
- * @param <O>
- * 			output type
  */
-public abstract class AbtractTamuraFeature<I extends RealType<I>, O extends RealType<O>>
-		extends AbstractHybridOp<IterableInterval<I>, O>implements TamuraFeature<I, O>, Contingent {
+public class Tamura2dFeatureTest extends AbstractFeatureTest {
 
+	
+	@Test 
+	public void testContrastFeature() {
+		
+		ops.tamura2d().contrast(random);
+		
+	}
+	
+	@Test
+	public void testDirectionalityFeature() {
+		ops.tamura2d().directionality(ellipse);
+	}
+	
+	@Test
+	public void testCoarsenessFeature() {
+		assertEquals(Coarseness.NAME, 43.614, ops.tamura2d().coarseness(random).getRealDouble(), 1e-3);
+	}
+	
 }

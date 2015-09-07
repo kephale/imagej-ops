@@ -29,23 +29,35 @@
  */
 package net.imagej.ops.features.tamura2d;
 
-import org.scijava.plugin.Parameter;
-
-import net.imagej.ops.OpService;
+import net.imagej.ops.AbstractHybridOp;
+import net.imagej.ops.Contingent;
+import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.type.numeric.RealType;
+import net.imglib2.type.numeric.real.DoubleType;
 
 /**
  * 
- * Default implementation of tamura feature contrast.
+ * Abstract tamura feature.
  * 
- * @author Andeas Graumann, Univesity of Konstanz
+ * @author Andreas Graumann, University of Konstanz
  *
+ * @param <I>
+ * 			type of incoming iterable interval
+ * @param <O>
+ * 			output type
  */
-public class DefaultContrast  {
+public abstract class AbstractTamuraFeature<I extends RealType<I>, O extends RealType<O>>
+		extends AbstractHybridOp<RandomAccessibleInterval<I>, O>implements TamuraFeature<I, O>, Contingent {
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public O createOutput(RandomAccessibleInterval<I> input) {
+		return (O) new DoubleType();
+	}
+	
+	@Override
+	public boolean conforms() {
+		return getInput().numDimensions() == 2;
+	}
 
-	@Parameter 
-	private OpService ops;
-	
-	//@Override
-	//public 
-	
 }
